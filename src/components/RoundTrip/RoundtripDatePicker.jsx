@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
 import { RangeDatePicker } from "react-google-flight-datepicker";
 import "react-google-flight-datepicker/dist/main.css";
 
-const RoundtripDatePicker = () => {
+export const RoundtripDatePicker = ({ onDateChange }) => {
   const [selectedDates, setSelectedDates] = useState({
     startDate: new Date(),
     endDate: new Date(),
@@ -10,6 +11,7 @@ const RoundtripDatePicker = () => {
 
   const handleDateChange = (startDate, endDate) => {
     setSelectedDates({ startDate, endDate });
+    onDateChange(startDate, endDate);
   };
 
   return (
@@ -32,4 +34,6 @@ const RoundtripDatePicker = () => {
   );
 };
 
-export default RoundtripDatePicker;
+RoundtripDatePicker.propTypes = {
+  onDateChange: PropTypes.func.isRequired,
+};

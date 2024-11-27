@@ -1,14 +1,25 @@
-import React from "react";
 import RoundtripCitySearch from "./RoundtripCitySearch";
 import RoundtripDatePicker from "./RoundtripDatePicker";
+import PropTypes from "prop-types";
 
-const MultiCityFilters = () => {
+export const MultiCityFilters = ({
+  onOriginChange,
+  onDestinationChange,
+  onDateChange,
+}) => {
   return (
     <div className="lg:inline-flex lg:flex-row flex-col gap-4 w-full">
-      <RoundtripCitySearch />
-      <RoundtripDatePicker />
+      <RoundtripCitySearch
+        onOriginChange={onOriginChange}
+        onDestinationChange={onDestinationChange}
+      />
+      <RoundtripDatePicker onDateChange={onDateChange} />
     </div>
   );
 };
 
-export default MultiCityFilters;
+MultiCityFilters.propTypes = {
+  onOriginChange: PropTypes.func.isRequired,
+  onDestinationChange: PropTypes.func.isRequired,
+  onDateChange: PropTypes.func.isRequired,
+};

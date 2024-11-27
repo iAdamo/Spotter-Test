@@ -3,8 +3,8 @@ import { useState } from "react";
 import PassengerSelector from "../components/PassengerSelector";
 import { ClassSelector } from "../components/ClassSelector";
 import { MultiCityFilters } from "../components/MultiCity/MultiCityFilters";
-import RoundtripFilter from "../components/RoundTrip/RoundtripFilter";
-import OneWayFilter from "../components/OneWay/OneWayFilter";
+import { RoundtripFilter } from "../components/RoundTrip/RoundtripFilter";
+import { OneWayFilter } from "../components/OneWay/OneWayFilter";
 import Explore from "../components/Explore";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -72,7 +72,13 @@ const Homepage = () => {
           />
         );
       case "Round trip":
-        return <RoundtripFilter />;
+        return (
+          <RoundtripFilter
+            onOriginChange={handleOriginChange}
+            onDestinationChange={handleDestinationChange}
+            onDateChange={handleDateChange}
+          />
+        );
       default:
         return <MultiCityFilters />;
     }
