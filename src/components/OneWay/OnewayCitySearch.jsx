@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { IoMdAirplane, IoMdSwap } from "react-icons/io";
-import { IoCloseCircle } from "react-icons/io5";
+// import { IoCloseCircle } from "react-icons/io5";
+import PropTypes from "prop-types";
 
-export const OnewayCitySearch = () => {
-  const [cities, setCities] = useState([
+export const OnewayCitySearch = ({ onOriginChange, onDestinationChange }) => {
+  const [cities] = useState([
     { city: "Brisbane", code: "BNE", country: "Australia" },
     { city: "Bali (Denpasar)", code: "DPS", country: "Indonesia" },
     { city: "Barcelona", code: "BCN", country: "Spain" },
@@ -33,6 +34,7 @@ export const OnewayCitySearch = () => {
   const handleCitySelectFrom = (city) => {
     setInputValueFrom(city.city);
     setFilteredCitiesFrom([]);
+    onOriginChange(city.city);
   };
 
   const handleInputChangeTo = (e) => {
@@ -47,6 +49,7 @@ export const OnewayCitySearch = () => {
   const handleCitySelectTo = (city) => {
     setInputValueTo(city.city);
     setFilteredCitiesTo([]);
+    onDestinationChange(city.city);
   };
 
   const handleSwipe = () => {
@@ -140,4 +143,7 @@ export const OnewayCitySearch = () => {
   );
 };
 
-export default OnewayCitySearch;
+OnewayCitySearch.propTypes = {
+  onOriginChange: PropTypes.func.isRequired,
+  onDestinationChange: PropTypes.func.isRequired,
+};

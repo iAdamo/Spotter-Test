@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { SingleDatePicker } from "react-google-flight-datepicker";
+import PropTypes from "prop-types";
 
 import "react-google-flight-datepicker/dist/main.css";
 
-const OnewayDatepicker = () => {
+export const OnewayDatepicker = ({ onDateChange }) => {
   const [selectedDates, setSelectedDates] = useState({
     startDate: new Date(),
     endDate: new Date(),
@@ -11,6 +12,7 @@ const OnewayDatepicker = () => {
 
   const handleDateChange = (startDate, endDate) => {
     setSelectedDates({ startDate, endDate });
+    onDateChange(startDate, endDate);
   };
 
   return (
@@ -33,4 +35,6 @@ const OnewayDatepicker = () => {
   );
 };
 
-export default OnewayDatepicker;
+OnewayDatepicker.propTypes = {
+  onDateChange: PropTypes.func.isRequired,
+};

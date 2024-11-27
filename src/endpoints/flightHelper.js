@@ -1,7 +1,4 @@
 import axios from 'axios';
-import dotenv from "dotenv";
-
-dotenv.config();
 
 
 export const flightSearch = async ({
@@ -23,13 +20,13 @@ export const flightSearch = async ({
     };
 
     const options = {
-      method: 'GET',
-      url: 'https://sky-scrapper.p.rapidapi.com/api/v1/flights/getFlightDetails',
+      method: "GET",
+      url: "https://sky-scrapper.p.rapidapi.com/api/v1/flights/getFlightDetails",
       params: data,
       headers: {
-        'x-rapidapi-key': process.env.REACT_APP_RAPIDAPI_KEY,
-        'x-rapidapi-host': 'sky-scrapper.p.rapidapi.com'
-      }
+        "x-rapidapi-key": "8dea73929bmsh75795a6e19a986bp1e854cjsnf336b93dd2ab",
+        "x-rapidapi-host": "sky-scrapper.p.rapidapi.com",
+      },
     };
 
     const response = await axios.request(options);
