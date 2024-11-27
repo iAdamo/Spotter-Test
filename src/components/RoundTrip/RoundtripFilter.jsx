@@ -1,8 +1,8 @@
-import RoundtripCitySearch from "./RoundtripCitySearch";
-import RoundtripDatePicker from "./RoundtripDatePicker";
+import { RoundtripCitySearch } from "./RoundtripCitySearch";
+import { RoundtripDatePicker } from "./RoundtripDatePicker";
 import PropTypes from "prop-types";
 
-export const MultiCityFilters = ({
+export const RoundtripFilter = ({
   onOriginChange,
   onDestinationChange,
   onDateChange,
@@ -18,8 +18,8 @@ export const MultiCityFilters = ({
   );
 };
 
-MultiCityFilters.propTypes = {
-  onOriginChange: PropTypes.func.isRequired,
-  onDestinationChange: PropTypes.func.isRequired,
-  onDateChange: PropTypes.func.isRequired,
-};
+ RoundtripFilter.propTypes = {
+   onOriginChange: PropTypes.func.isRequired,
+   onDestinationChange: PropTypes.func.isRequired,
+   onDateChange: PropTypes.func.isRequired,
+ };
