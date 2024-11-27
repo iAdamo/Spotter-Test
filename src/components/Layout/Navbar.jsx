@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import Logo from "../../assets/Logo.png";
 import Face from "../../assets/Face.jpg";
 import { searchAirport } from "../../endpoints/flightHelper";
@@ -150,13 +151,15 @@ export const Navbar = () => {
                 onChange={handleSearchChange}
               />
               {searchResults.length > 0 && (
-                <ul className="absolute left-0 top-full mt-1 bg-white border rounded-md shadow-lg w-full max-w-md">
+                <ul className="absolute left-0 top-full mt-1 bg-white border rounded-md shadow-lg w-full max-w-md max-h-60 overflow-y-auto">
                   {searchResults.map((result, index) => (
                     <li key={index} className="p-2 hover:bg-gray-100">
-                      <div className="font-semibold">
-                        {result.presentation.suggestionTitle} - {result.presentation.title}
-                      </div>
-                      <div className="text-sm text-gray-500">{result.presentation.subtitle}</div>
+                      <Link to={`/search/${result.presentation.entityId}`} className="block">
+                        <div className="font-semibold">
+                          {result.presentation.suggestionTitle} - {result.presentation.title}
+                        </div>
+                        <div className="text-sm text-gray-500">{result.presentation.subtitle}</div>
+                      </Link>
                     </li>
                   ))}
                 </ul>
