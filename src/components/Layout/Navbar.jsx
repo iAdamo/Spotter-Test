@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from "react";
+import PropTypes from "prop-types";
 import Logo from "../../assets/Logo.png";
-
 import Face from "../../assets/Face.jpg";
+import { searchAirport } from "../../endpoints/flightHelper";
 
 // Profile Dropdown
-const ProfileDropDown = (props) => {
+export const ProfileDropDown = (props) => {
   const [state, setState] = useState(false);
   const profileRef = useRef();
 
@@ -42,9 +43,8 @@ const ProfileDropDown = (props) => {
         }`}
       >
         {navigation.map((item, idx) => (
-          <li>
+          <li key={idx}>
             <a
-              key={idx}
               className="block text-gray-600 lg:hover:bg-gray-50 lg:p-2.5"
               href={item.path}
             >
@@ -56,9 +56,44 @@ const ProfileDropDown = (props) => {
     </div>
   );
 };
+ProfileDropDown.propTypes = {
+  class: PropTypes.string,
+};
 
-export default () => {
+export const Navbar = () => {
   const [menuState, setMenuState] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const searchRef = useRef();
+
+  const handleSearchChange = async (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    if (query.length > 0) {
+      try {
+        const results = await searchAirport(query);
+        setSearchResults(results);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      setSearchResults([]);
+    }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setSearchResults([]);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [searchRef]);
 
   // Replace javascript:void(0) path with your path
   const navigation = [
@@ -67,6 +102,7 @@ export default () => {
     { title: "Guides", path: "javascript:void(0)" },
     { title: "Partners", path: "javascript:void(0)" },
   ];
+
   return (
     <nav className="bg-white border-b">
       <div className="flex items-center space-x-8 py-3 px-4 max-w-screen-xl mx-auto md:px-8">
@@ -77,7 +113,7 @@ export default () => {
         </div>
         <div className="flex-1 flex items-center justify-between">
           <div
-            className={`bg-white absolute z-20 w-full top-16 left-0 p-4 border-b lg:static lg:block lg:border-none ${
+            className={`bg-white absolute z-20 top-16 left-0 p-4 border-b lg:static lg:block lg:border-none ${
               menuState ? "" : "hidden"
             }`}
           >
@@ -91,7 +127,7 @@ export default () => {
             <ProfileDropDown class="mt-5 pt-5 border-t lg:hidden" />
           </div>
           <div className="flex-1 flex items-center justify-end space-x-2 sm:space-x-6">
-            <form className="flex items-center space-x-2 border rounded-md p-2">
+            <form ref={searchRef} className="relative flex items-center space-x-2 border rounded-md p-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 flex-none text-gray-300"
@@ -110,7 +146,21 @@ export default () => {
                 className="w-full outline-none appearance-none placeholder-gray-500 text-gray-500 sm:w-auto"
                 type="text"
                 placeholder="Search"
+                value={searchQuery}
+                onChange={handleSearchChange}
               />
+              {searchResults.length > 0 && (
+                <ul className="absolute left-0 top-full mt-1 bg-white border rounded-md shadow-lg w-full max-w-md">
+                  {searchResults.map((result, index) => (
+                    <li key={index} className="p-2 hover:bg-gray-100">
+                      <div className="font-semibold">
+                        {result.presentation.suggestionTitle} - {result.presentation.title}
+                      </div>
+                      <div className="text-sm text-gray-500">{result.presentation.subtitle}</div>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </form>
             <ProfileDropDown class="hidden lg:block" />
             <button
